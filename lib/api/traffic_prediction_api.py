@@ -1,10 +1,25 @@
-from flask import Flask, request, jsonify
+import os
 import joblib
 import pandas as pd
+from flask import Flask, request, jsonify
 
-# Load trained model and encoders
-model = joblib.load("../lib/models/traffic_prediction_model.pkl")
-label_encoders = joblib.load("../lib/models/label_encoders.pkl")
+# Get the absolute path of the current file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the correct path to models
+MODEL_PATH = os.path.join(BASE_DIR, "..", "models", "traffic_prediction_model.pkl")
+ENCODER_PATH = os.path.join(BASE_DIR, "..", "models", "label_encoders.pkl")
+
+# Ensure files exist
+if not os.path.exists(MODEL_PATH):
+    raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
+
+if not os.path.exists(ENCODER_PATH):
+    raise FileNotFoundError(f"Encoder file not found at {ENCODER_PATH}")
+
+# Load model and encoders
+model = joblib.load(MODEL_PATH)
+label_encoders = joblib.load(ENCODER_PATH)
 
 app = Flask(__name__)
 

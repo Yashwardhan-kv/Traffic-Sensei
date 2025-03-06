@@ -3,8 +3,8 @@ import joblib
 import pandas as pd
 
 # Load trained model and encoders
-model = joblib.load("traffic_prediction_model.pkl")
-label_encoders = joblib.load("label_encoders.pkl")
+model = joblib.load("\models\traffic_prediction_model.pkl")
+label_encoders = joblib.load("models\label_encoders.pkl")
 
 app = Flask(__name__)
 

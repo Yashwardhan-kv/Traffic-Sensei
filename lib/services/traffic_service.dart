@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:traffic_sensei/models/traffic_model.dart';
 
 class TrafficService {
-  static const String apiUrl = "http://your-backend-api.com/predict"; // Replace with actual API URL
+  static const String apiUrl = "https://traffic-sensei.onrender.com/predict"; // Replace with actual API URL
 
   static Future<TrafficModel?> fetchPrediction(int hour, String day, String weather) async {
     try {

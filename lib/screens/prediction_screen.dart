@@ -1,5 +1,6 @@
 // prediction_screen.dart
 import 'package:flutter/material.dart';
+import '../services/traffic_service.dart';
 
 class PredictionScreen extends StatelessWidget {
   final String congestionLevel;

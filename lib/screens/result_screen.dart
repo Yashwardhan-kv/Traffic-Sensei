@@ -6,9 +6,9 @@ class ResultScreen extends StatefulWidget {
   final String congestionLevel;
 
   const ResultScreen({
-    Key? key,
     required this.prediction,
     required this.congestionLevel,
+    Key? key,
   }) : super(key: key);
 
   @override

@@ -26,7 +26,11 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ResultScreen(prediction: prediction.congestionLevel),
+          builder: (context) => ResultScreen(
+            prediction: prediction, 
+            congestionLevel: prediction.congestionLevel,
+          ), 
+
         ),
       );
     } else {

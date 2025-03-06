@@ -17,27 +17,8 @@ class AppRoutes {
     splash: (context) => const SplashScreen(),
     home: (context) => const HomeScreen(),
     map: (context) => const MapScreen(),
-    prediction: (context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-      if (args == null || !args.containsKey('congestionLevel')) {
-        return const Scaffold(
-          body: Center(child: Text("Error: Congestion Level Not Provided")),
-        );
-      }
-      return PredictionScreen(congestionLevel: args['congestionLevel']);
-    },
-    result: (context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-      if (args == null || !args.containsKey('prediction') || !args.containsKey('congestionLevel')) {
-        return const Scaffold(
-          body: Center(child: Text("Error: Missing Required Arguments")),
-        );
-      }
-      return ResultScreen(
-        prediction: args['prediction'],
-        congestionLevel: args['congestionLevel'],
-      );
-    },
+    prediction: (context) => _buildPredictionScreen(context),
+    result: (context) => _buildResultScreen(context),
   };
 
   // Function to navigate with arguments
@@ -45,6 +26,7 @@ class AppRoutes {
     Navigator.pushNamed(context, routeName, arguments: args);
   }
 
+  // Route Generator Function
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
@@ -52,32 +34,9 @@ class AppRoutes {
       case map:
         return MaterialPageRoute(builder: (_) => const MapScreen());
       case prediction:
-        final args = settings.arguments as Map<String, dynamic>?;
-        if (args == null || !args.containsKey('congestionLevel')) {
-          return MaterialPageRoute(
-            builder: (_) => const Scaffold(
-              body: Center(child: Text("Error: Congestion Level Not Provided")),
-            ),
-          );
-        }
-        return MaterialPageRoute(
-          builder: (_) => PredictionScreen(congestionLevel: args['congestionLevel']),
-        );
+        return MaterialPageRoute(builder: (context) => _buildPredictionScreen(context, settings.arguments));
       case result:
-        final args = settings.arguments as Map<String, dynamic>?;
-        if (args == null || !args.containsKey('prediction') || !args.containsKey('congestionLevel')) {
-          return MaterialPageRoute(
-            builder: (_) => const Scaffold(
-              body: Center(child: Text("Error: Missing Required Arguments")),
-            ),
-          );
-        }
-        return MaterialPageRoute(
-          builder: (_) => ResultScreen(
-            prediction: args['prediction'],
-            congestionLevel: args['congestionLevel'],
-          ),
-        );
+        return MaterialPageRoute(builder: (context) => _buildResultScreen(context, settings.arguments));
       case splash:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       default:
@@ -87,5 +46,33 @@ class AppRoutes {
           ),
         );
     }
+  }
+
+  // Helper Functions to Handle Arguments
+  static Widget _buildPredictionScreen(BuildContext context, [Object? arguments]) {
+    final args = arguments as Map<String, dynamic>?;
+    if (args == null || !args.containsKey('congestionLevel')) {
+      return _errorScreen("Error: Congestion Level Not Provided");
+    }
+    return PredictionScreen(congestionLevel: args['congestionLevel']);
+  }
+
+  static Widget _buildResultScreen(BuildContext context, [Object? arguments]) {
+    final args = arguments as Map<String, dynamic>?;
+    if (args == null || !args.containsKey('prediction') || !args.containsKey('congestionLevel')) {
+      return _errorScreen("Error: Missing Required Arguments");
+    }
+    return ResultScreen(
+      prediction: args['prediction'],
+      congestionLevel: args['congestionLevel'],
+    );
+  }
+
+  static Widget _errorScreen(String message) {
+    return Scaffold(
+      body: Center(
+        child: Text(message, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red)),
+      ),
+    );
   }
 }

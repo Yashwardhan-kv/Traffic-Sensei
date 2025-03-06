@@ -3,8 +3,13 @@ import 'package:traffic_sensei/utils/colors.dart';
 
 class ResultScreen extends StatefulWidget {
   final String prediction;
+  final String congestionLevel;
 
-  const ResultScreen({Key? key, required this.prediction}) : super(key: key);
+  const ResultScreen({
+    Key? key,
+    required this.prediction,
+    required this.congestionLevel,
+  }) : super(key: key);
 
   @override
   _ResultScreenState createState() => _ResultScreenState();
@@ -62,6 +67,14 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Congestion Level: ${widget.congestionLevel}",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black54,
                     ),
                   ),
                   SizedBox(height: 20),

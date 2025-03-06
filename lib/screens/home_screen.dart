@@ -27,9 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => ResultScreen(
-            prediction: prediction, 
-            congestionLevel: prediction.congestionLevel,
-          ), 
+  prediction: prediction.predictionText, 
+  congestionLevel: prediction.congestionLevel,
+),
+
 
         ),
       );
